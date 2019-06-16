@@ -1,0 +1,29 @@
+QUERIES:
+
+1. Find max of all ndp:
+MATCH ((c:Country)-[h:HAVE_A_STATE]-(s:State))
+RETURN s.name as Name, h.ndp as NDP, h.duration as Duration
+ORDER BY h.ndp DESC
+LIMIT 20;
+
+2. Year wise max gdp of all states:
+MATCH ((c:Country)-[h:HAVE_A_STATE]-(s:State))
+WHERE h.duration="2011-2012"
+RETURN s.name as Name, h.ndp as NDP, h.duration as Duration
+ORDER BY h.ndp DESC
+LIMIT 20;
+
+3. Details of max NDP value
+MATCH ((c:Country)-[h:HAVE_A_STATE]-(s:State))
+WITH max(h.ndp) AS Max_NDP
+MATCH ((c:Country)-[h:HAVE_A_STATE]-(s:State))
+WHERE h.ndp = Max_NDP
+Return s.name as Name, h.duration as Duration, h.ndp as NDP;
+
+4. Details of year wise max NDP value
+MATCH ((c:Country)-[h:HAVE_A_STATE]-(s:State))
+WHERE h.duration = "2012-2013"
+WITH max(h.ndp) AS Max_NDP
+MATCH ((c:Country)-[h:HAVE_A_STATE]-(s:State))
+WHERE h.ndp = Max_NDP
+Return s.name as Name, h.duration as Duration, h.ndp as NDP;
